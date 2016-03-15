@@ -5,15 +5,22 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
+from Genalgo import Genalgo
+
 def main():
-    print "hello"
     #make_plot_original([1,2,3,4], [1,5,9,16])
-    lx, ly = parse_data('lib/xqf131.tsp')
-    make_plot_original(lx, ly)
-    #make_plot_solved([1, 2, 3, 4], [1, 5, 9, 16], [0, 3, 1, 2])
-    save_plot('original.png')
-    print distance([1, 1], [1, 4])
+    lx, ly = parse_data('lib/xqf131-small.tsp')
+    algo = Genalgo(lx, ly)
+    algo.initialize()
+    limit = 100
+    #for i in range(0, limit)
+    #    solution = algo.evolve()
+
     
+    #make_plot_original(lx, ly)
+    make_plot_solved(lx, ly, [0, 3, 1, 2])
+    save_plot('original.png')
+
 
 def parse_data(name):
     with open(name) as f:
@@ -21,14 +28,7 @@ def parse_data(name):
     lines = filter(lambda x: x.split(' ')[0].isdigit(), lines)
     lx = [int(p.split(' ')[1]) for p in lines]
     ly = [int(p.split(' ')[2]) for p in lines]
-    print lx, ly
     return lx, ly
-
-# Helper functions
-def distance(x, y):
-    xd = x[0] - x[1]
-    yd = y[0] - y[1]
-    return round(math.sqrt(xd*xd + yd*yd))
 
 # Plot functions
 def make_plot_original(lx, ly):
