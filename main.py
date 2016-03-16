@@ -13,6 +13,7 @@ def main():
     algo = Genalgo(lx, ly)
     algo.initialize()
     limit = 100
+    print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
     #for i in range(0, limit)
     #    solution = algo.evolve()
 

@@ -9,7 +9,7 @@ class Tour(object):
         self.distance = 0
         self.fitness = 0
         self.cities = random.sample(range(len(lx)), len(lx))
-        print "Cities: ",self.cities
+        #print "Cities: ",self.cities
 
     def set_tour(self, l):
         self.cities = l
