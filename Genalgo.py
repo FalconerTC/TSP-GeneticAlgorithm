@@ -19,7 +19,19 @@ class Genalgo(object):
         print t.get_cost(), t.get_fitness()
         print self.get_fittest().get_cost()
 
-    def evolve(self):
+    def evolve_new_pop(self):
+        pass
+
+    def evolve_same_pop(self):
+        pass
+
+    def crossover(self):
+        pass
+
+    def tournament_selection(self):
+        pass
+
+    def mutate(self):
         pass
 
     def get_fittest(self):
