@@ -12,23 +12,23 @@ def main():
     lx, ly = parse_data('lib/xqf131.tsp')
     algo = Genalgo(lx, ly)
     algo.initialize()
-    limit = 1000
+    limit = 2
     #print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
     #algo.evolve_new_pop()
 
-    #for i in range(0, limit)
-    #    algo.evolve()
-    # solution = algo.tours[algo.get_best_tours[1][0]].cities
 
     for i in range(0,limit):
-         algo.evolve_same_pop()
+         algo.evolve_new_pop()
+         #algo.evolve_same_pop()
+         pass
 
-    best = algo.get_best_tours(algo.tours)
+    _, best_tuple = algo.get_best_tours(algo.tours)
+    best = algo.tours[best_tuple[0]]
+    cities = best.cities
+    cities.append(best.cities[0])
 
-    algo.tours[best[1][0]].cities.append(algo.tours[best[1][0]].cities[0])
-    print  algo.tours[best[1][0]].cities
     #make_plot_original(lx, ly)
-    make_plot_solved(lx, ly, algo.tours[best[1][0]].cities)
+    make_plot_solved(lx, ly, cities)
     save_plot('original.png')
 
 

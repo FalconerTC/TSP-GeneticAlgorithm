@@ -27,11 +27,26 @@ class Genalgo(object):
         best = self.tours[best_tuple[0]]
         new_tours.append(best)
 
+        print "Best: ", best.get_cost(), best_tuple[0]
+
         for i in range(1, len(self.tours)):
             parent1 = self.tournament_selection()
             parent2 = self.tournament_selection()
-            print parent1, parent2
-            child1, child2 = self.crossover(parent1, parent2)
+            child1, child2 = self.crossover(parent1.cities, parent2.cities)
+
+            t = Tour(self.lx, self.ly)
+            t.set_tour(child1)
+            new_tours.append(t)
+            #print i,parent1.get_cost(), parent2.get_cost(), t.get_cost()
+
+        self.tours = new_tours
+        for i in range(1, len(self.tours)):
+            self.tours[i] = self.mutate(self.tours[i])
+
+        _, best_tuple = self.get_best_tours(self.tours)
+        best = self.tours[best_tuple[0]]
+        #print "New best: ", best.get_cost(), best_tuple[0], self.tours[0].get_cost()
+
         pass
 
     def evolve_same_pop(self):
@@ -62,8 +77,6 @@ class Genalgo(object):
 
         for i in range(len(self.tours)):
             self.tours[i] = self.mutate(self.tours[i])
-
-        pass
 
     def crossover(self, parent1, parent2):
         child1 = [-1 for x in range(len(parent1))]
@@ -112,12 +125,6 @@ class Genalgo(object):
                 count2 += 1
 
         #print index1," Through ",index2, " for the crossover"
-        '''
-        print parent1
-        print child1
-        print parent2
-        print child2
-        '''
         return child1,child2
 
     def get_best_tours(self, tour_list):
@@ -143,8 +150,12 @@ class Genalgo(object):
         return worstTwo
 
     def tournament_selection(self):
-        rand_tours = [randint(0, len(self.tours)) for x in range(self.tournament_size)]
-        second, best_tuple = self.get_best_tours(rand_tours)
+        rand_vals = [randint(0, len(self.tours)-1) for x in range(self.tournament_size)]
+        rand_tours = [self.tours[x] for x in rand_vals]
+        _, best_tuple = self.get_best_tours(rand_tours)
+
+
+        #self.tours = [Tour(self.lx, self.ly) for i in range(0, size)]
         return self.tours[best_tuple[0]]
 
     def mutate(self,tour):
