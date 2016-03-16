@@ -12,13 +12,20 @@ class Genalgo(object):
         self.size = size
         self.prob_crossover = prob_crossover
         self.prob_mutation = prob_mutation
+        self.tours = [Tour(self.lx, self.ly) for i in range(0, size)]
 
     def initialize(self):
         t = Tour(self.lx, self.ly)
         print t.get_cost(), t.get_fitness()
+        print self.get_fittest().get_cost()
 
     def evolve(self):
         pass
 
-    def gen_population(self):
-        pass
+    def get_fittest(self):
+        fittest = self.tours[0]
+        for i in self.tours:
+            if i.get_fitness() > fittest.get_fitness():
+                fittest = i
+        return fittest
+
