@@ -19,25 +19,14 @@ class Genalgo(object):
         t = Tour(self.lx, self.ly)
 
     def evolve_new_pop(self):
+        new_tours = []
+
+
         pass
 
     def evolve_same_pop(self):
-        bestTwo = [(-1,10000),(-1,10000)]
-        worstTwo = [(-1,0),(-1,0)]
-
-        for i in range(len(self.tours)):
-            currentCost = self.tours[i].get_cost()
-            if currentCost < bestTwo[0][1] and currentCost < bestTwo[1][1]:
-                bestTwo[0] = (bestTwo[1])
-                bestTwo[1] = (i, currentCost)
-            elif currentCost < bestTwo[0][1]:
-                bestTwo[0] = (i,currentCost)
-
-            if currentCost > worstTwo[0][1] and currentCost > worstTwo[1][1]:
-                worstTwo[0] = (worstTwo[1])
-                worstTwo[1] = (i, currentCost)
-            elif currentCost > bestTwo[0][1]:
-                worstTwo[0] = (i,currentCost)
+        bestTwo = self.get_best_tours(self.tours)
+        worstTwo = self.get_worst_tours(self.tours)
 
         child1List,child2List = self.crossover(self.tours[bestTwo[0][0]].cities,
                 self.tours[bestTwo[1][0]].cities)
@@ -107,6 +96,28 @@ class Genalgo(object):
         print child2
         '''
         return child1,child2
+
+    def get_best_tours(self, tour_list):
+        bestTwo = [(-1,10000),(-1,10000)]
+        for i in range(len(tour_list)):
+            currentCost = tour_list[i].get_cost()
+            if currentCost < bestTwo[0][1] and currentCost < bestTwo[1][1]:
+                bestTwo[0] = (bestTwo[1])
+                bestTwo[1] = (i, currentCost)
+            elif currentCost < bestTwo[0][1]:
+                bestTwo[0] = (i, currentCost)
+        return bestTwo
+
+    def get_worst_tours(self, tour_list):
+        worstTwo = [(-1,0),(-1,0)]
+        for i in range(len(tour_list)):
+            currentCost = tour_list[i].get_cost()
+            if currentCost > worstTwo[0][1] and currentCost > worstTwo[1][1]:
+                worstTwo[0] = (worstTwo[1])
+                worstTwo[1] = (i, currentCost)
+            elif currentCost > worstTwo[0][1]:
+                worstTwo[0] = (i, currentCost)
+        return worstTwo
 
     def tournament_selection(self):
         # will prolly end up using this
