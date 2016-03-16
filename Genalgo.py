@@ -5,8 +5,8 @@ from random import randint
 class Genalgo(object):
 
     def __init__(self, lx, ly,
-                limit=100, size=50,
-                prob_crossover=0.9, prob_mutation=0.2, tournament_size=5):
+                limit=100, size=100,
+                prob_crossover=0.9, prob_mutation=0.1, tournament_size=5):
         self.lx = lx
         self.ly = ly
         self.limit = limit
@@ -32,8 +32,6 @@ class Genalgo(object):
             parent2 = self.tournament_selection()
             print parent1, parent2
             child1, child2 = self.crossover(parent1, parent2)
-
-
         pass
 
     def evolve_same_pop(self):
@@ -43,7 +41,10 @@ class Genalgo(object):
         child1List,child2List = self.crossover(self.tours[bestTwo[0][0]].cities,
                 self.tours[bestTwo[1][0]].cities)
 
+        #print "Best: ", self.tours[bestTwo[1][0]].cities ,bestTwo[1][1]
         print "Best: ", bestTwo[1][1]
+        
+        #print "Cost: ", self.tours[bestTwo[1][0]].get_cost()
 
         child1 = Tour(self.lx, self.ly)
         child2 = Tour(self.lx, self.ly)
@@ -53,8 +54,11 @@ class Genalgo(object):
 
        # print "New Children scores: ",child1.get_cost(), " and: ",child2.get_cost()
 
-        self.tours[worstTwo[0][0]] = child1 
-        self.tours[worstTwo[1][0]] = child2
+        if self.tours[worstTwo[0][0]].get_cost() > child1.get_cost():
+            self.tours[worstTwo[0][0]] = child1
+
+        if self.tours[worstTwo[1][0]].get_cost() > child2.get_cost():
+            self.tours[worstTwo[1][0]] = child2
 
         for i in range(len(self.tours)):
             self.tours[i] = self.mutate(self.tours[i])
@@ -148,10 +152,7 @@ class Genalgo(object):
         index2 = randint(0, len(tour.cities)-1)
         if random.random()<self.prob_mutation:
            # print "Mutating: ",tour.cities[index1], " ", tour.cities[index2]
-            temp = tour.cities[index1]
-            tour.cities[index1] = tour.cities[index2]
-            tour.cities[index2] = temp
-
+            tour.swap(index1,index2)
         return tour
 
     def get_fittest(self):

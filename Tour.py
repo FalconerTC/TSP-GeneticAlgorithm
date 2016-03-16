@@ -21,6 +21,12 @@ class Tour(object):
             self.fitness = 1 / self.get_cost()
         return self.fitness
 
+    def swap(self,index1,index2):
+        temp = self.cities[index1]
+        self.cities[index1] = self.cities[index2]
+        self.cities[index2] = temp
+        self.distance = 0
+
     # Calculate total distance of tour
     def get_cost(self):
         if self.distance == 0:
