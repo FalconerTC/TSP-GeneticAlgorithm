@@ -20,8 +20,6 @@ class Genalgo(object):
 
     def evolve_new_pop(self):
         new_tours = []
-
-
         pass
 
     def evolve_same_pop(self):
@@ -39,6 +37,12 @@ class Genalgo(object):
         child2.set_tour(child2List)
 
         print "New Children scores: ",child1.get_cost(), " and: ",child2.get_cost()
+
+        self.tours[worstTwo[0][0]] = child1 
+        self.tours[worstTwo[1][0]] = child2
+
+        for i in range(len(self.tours)):
+            self.tours[i] = self.mutate(self.tours[i])
 
         pass
 
@@ -125,8 +129,16 @@ class Genalgo(object):
         print "Here are the randNums",randNums
         pass
 
-    def mutate(self):
-        pass
+    def mutate(self,tour):
+        index1 = randint(0, len(tour.cities)-1)
+        index2 = randint(0, len(tour.cities)-1)
+        if random.random()<self.prob_mutation:
+           # print "Mutating: ",tour.cities[index1], " ", tour.cities[index2]
+            temp = tour.cities[index1]
+            tour.cities[index1] = tour.cities[index2]
+            tour.cities[index2] = temp
+
+        return tour
 
     def get_fittest(self):
         fittest = self.tours[0]
