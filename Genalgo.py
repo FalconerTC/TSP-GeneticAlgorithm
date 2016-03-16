@@ -28,7 +28,8 @@ class Genalgo(object):
 
         child1List,child2List = self.crossover(self.tours[bestTwo[0][0]].cities,
                 self.tours[bestTwo[1][0]].cities)
-        print "Parents scores: ",bestTwo[0][1], " and: ",bestTwo[1][1]
+
+        print "Best: ", bestTwo[1][1]
 
         child1 = Tour(self.lx, self.ly)
         child2 = Tour(self.lx, self.ly)
@@ -36,7 +37,7 @@ class Genalgo(object):
         child1.set_tour(child1List)
         child2.set_tour(child2List)
 
-        print "New Children scores: ",child1.get_cost(), " and: ",child2.get_cost()
+       # print "New Children scores: ",child1.get_cost(), " and: ",child2.get_cost()
 
         self.tours[worstTwo[0][0]] = child1 
         self.tours[worstTwo[1][0]] = child2
@@ -61,8 +62,8 @@ class Genalgo(object):
                 print "Trying to crossover two parents that aren't the same length"
 
         # Generate random bounds
-        index1 = randint(0, len(parent1))
-        index2 = randint(0, len(parent2))
+        index1 = randint(0, len(parent1)-1)
+        index2 = randint(0, len(parent2)-1)
 
         if index2 > index1:
             for i in range(index1,index2):
@@ -92,7 +93,7 @@ class Genalgo(object):
                 child2[i] = difflist2[count2]
                 count2 += 1
 
-        print index1," Through ",index2, " for the crossover"
+        #print index1," Through ",index2, " for the crossover"
         '''
         print parent1
         print child1

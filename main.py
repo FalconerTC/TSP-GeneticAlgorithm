@@ -9,18 +9,25 @@ from Genalgo import Genalgo
 
 def main():
     #make_plot_original([1,2,3,4], [1,5,9,16])
-    lx, ly = parse_data('lib/xqf131-small.tsp')
+    lx, ly = parse_data('lib/xqf131.tsp')
     algo = Genalgo(lx, ly)
     algo.initialize()
-    limit = 100
+    limit = 1000
     #print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
-    algo.evolve_same_pop()
+   
 
     #for i in range(0, limit)
     #    solution = algo.evolve()
 
+    for i in range(0,limit):
+         algo.evolve_same_pop()
+
+    best = algo.get_best_tours(algo.tours)
+
+    algo.tours[best[1][0]].cities.append(algo.tours[best[1][0]].cities[0])
+    print  algo.tours[best[1][0]].cities
     #make_plot_original(lx, ly)
-    make_plot_solved(lx, ly, [0, 3, 1, 2])
+    make_plot_solved(lx, ly, algo.tours[best[1][0]].cities)
     save_plot('original.png')
 
 
