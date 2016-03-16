@@ -13,11 +13,12 @@ def main():
     algo = Genalgo(lx, ly)
     algo.initialize()
     limit = 100
-    print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
+    #print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
+    algo.evolve_same_pop()
+
     #for i in range(0, limit)
     #    solution = algo.evolve()
 
-    
     #make_plot_original(lx, ly)
     make_plot_solved(lx, ly, [0, 3, 1, 2])
     save_plot('original.png')
