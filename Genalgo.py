@@ -6,11 +6,12 @@ class Genalgo(object):
 
     def __init__(self, lx, ly,
                 limit=100, size=50,
-                prob_crossover=0.9, prob_mutation=0.2):
+                prob_crossover=0.9, prob_mutation=0.2, tournament_size=5):
         self.lx = lx
         self.ly = ly
         self.limit = limit
         self.size = size
+        self.tournament_size = tournament_size
         self.prob_crossover = prob_crossover
         self.prob_mutation = prob_mutation
         self.tours = [Tour(self.lx, self.ly) for i in range(0, size)]
@@ -20,6 +21,19 @@ class Genalgo(object):
 
     def evolve_new_pop(self):
         new_tours = []
+
+        # Save best tour
+        _, best_tuple = self.get_best_tours(self.tours)
+        best = self.tours[best_tuple[0]]
+        new_tours.append(best)
+
+        for i in range(1, len(self.tours)):
+            parent1 = self.tournament_selection()
+            parent2 = self.tournament_selection()
+            print parent1, parent2
+            child1, child2 = self.crossover(parent1, parent2)
+
+
         pass
 
     def evolve_same_pop(self):
@@ -125,10 +139,9 @@ class Genalgo(object):
         return worstTwo
 
     def tournament_selection(self):
-        # will prolly end up using this
-        randNums = [randint(0,len(self.tours)) for x in range(5)]
-        print "Here are the randNums",randNums
-        pass
+        rand_tours = [randint(0, len(self.tours)) for x in range(self.tournament_size)]
+        second, best_tuple = self.get_best_tours(rand_tours)
+        return self.tours[best_tuple[0]]
 
     def mutate(self,tour):
         index1 = randint(0, len(tour.cities)-1)

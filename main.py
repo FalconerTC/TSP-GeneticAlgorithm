@@ -14,10 +14,11 @@ def main():
     algo.initialize()
     limit = 1000
     #print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
-   
+    #algo.evolve_new_pop()
 
     #for i in range(0, limit)
-    #    solution = algo.evolve()
+    #    algo.evolve()
+    # solution = algo.tours[algo.get_best_tours[1][0]].cities
 
     for i in range(0,limit):
          algo.evolve_same_pop()
