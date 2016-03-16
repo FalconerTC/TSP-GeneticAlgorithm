@@ -6,7 +6,7 @@ class Genalgo(object):
 
     def __init__(self, lx, ly,
                 limit=100, size=100,
-                prob_crossover=0.9, prob_mutation=0.1, tournament_size=5):
+                prob_crossover=0.9, prob_mutation=0.2, tournament_size=5):
         self.lx = lx
         self.ly = ly
         self.limit = limit

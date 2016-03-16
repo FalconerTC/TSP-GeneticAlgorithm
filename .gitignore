@@ -1,7 +1,7 @@
 # Files
 original.png
 solved.png
-
+data*
 # Generic
 *.swp
 *.pyc
