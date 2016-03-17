@@ -25,8 +25,9 @@ class Genalgo(object):
         _, best_tuple = self.get_best_tours(self.tours)
         best = self.tours[best_tuple[0]]
         new_tours.append(best)
-        if iteration %100==0:
-            print iteration, best.get_cost(), best_tuple[0]
+
+        if iteration % 100 == 0:
+            print iteration, best.get_cost()
 
         for i in range(1, len(self.tours)):
             parent1 = self.tournament_selection()

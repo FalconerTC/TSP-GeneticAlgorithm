@@ -57,6 +57,8 @@ def main():
     cities.append(best.cities[0])
     print "Best: ",best.get_cost()
 
+    print "Best: ", best.get_cost()
+
     make_plot_original(lx, ly)
     save_plot('original.png')
     make_plot_solved(lx, ly, cities)
