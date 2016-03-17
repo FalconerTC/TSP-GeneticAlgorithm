@@ -5,7 +5,7 @@ from random import randint
 class Genalgo(object):
 
     def __init__(self, lx, ly,
-                limit=100, size=50,
+                limit=100, size=10,
                 prob_mutation=0.2, tournament_size=5):
         self.lx = lx
         self.ly = ly
@@ -25,8 +25,8 @@ class Genalgo(object):
         _, best_tuple = self.get_best_tours(self.tours)
         best = self.tours[best_tuple[0]]
         new_tours.append(best)
-
-        print iteration, best.get_cost(), best_tuple[0]
+        if iteration %100==0:
+            print iteration, best.get_cost(), best_tuple[0]
 
         for i in range(1, len(self.tours)):
             parent1 = self.tournament_selection()
@@ -48,15 +48,20 @@ class Genalgo(object):
 
         pass
 
-    def evolve_same_pop(self):
+    def evolve_same_pop(self,iteration):
+
         bestTwo = self.get_best_tours(self.tours)
         worstTwo = self.get_worst_tours(self.tours)
+
+        if iteration %1000 == 0:
+            print iteration,": ",bestTwo[1][1]
+
 
         child1List,child2List = self.crossover(self.tours[bestTwo[0][0]].cities,
                 self.tours[bestTwo[1][0]].cities)
 
         #print "Best: ", self.tours[bestTwo[1][0]].cities ,bestTwo[1][1]
-        print "Best: ", bestTwo[1][1]
+        #print "Best: ", bestTwo[1][1]
         
         #print "Cost: ", self.tours[bestTwo[1][0]].get_cost()
 
@@ -80,7 +85,7 @@ class Genalgo(object):
     def crossover(self, parent1, parent2):
         child1 = [-1 for x in range(len(parent1))]
         child2 = [-1 for x in range(len(parent2))]
-
+        
         #Used to find ones that weren't duplicates later on
         difflist = []
         difflist2 = []

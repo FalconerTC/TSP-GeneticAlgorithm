@@ -19,14 +19,43 @@ def main():
 
 
     for i in range(0,limit):
-         algo.evolve_new_pop(i)
-         #algo.evolve_same_pop()
+         #algo.evolve_new_pop(i)
+         algo.evolve_same_pop(i)
+         if i == 10:
+            _, best_tuple = algo.get_best_tours(algo.tours)
+            best = algo.tours[best_tuple[0]]
+            cities = best.cities
+            cities.append(best.cities[0])
+            make_plot_solved(lx, ly, cities)
+            save_plot('solved-10.png')
+         if i == 100:
+            _, best_tuple = algo.get_best_tours(algo.tours)
+            best = algo.tours[best_tuple[0]]
+            cities = best.cities
+            cities.append(best.cities[0])
+            make_plot_solved(lx, ly, cities)
+            save_plot('solved-100.png')
+         if i == 1000:
+            _, best_tuple = algo.get_best_tours(algo.tours)
+            best = algo.tours[best_tuple[0]]
+            cities = best.cities
+            cities.append(best.cities[0])
+            make_plot_solved(lx, ly, cities)
+            save_plot('solved-1000.png')
+         if i == 10000:
+            _, best_tuple = algo.get_best_tours(algo.tours)
+            best = algo.tours[best_tuple[0]]
+            cities = best.cities
+            cities.append(best.cities[0])
+            make_plot_solved(lx, ly, cities)
+            save_plot('solved-10000.png')
          pass
 
     _, best_tuple = algo.get_best_tours(algo.tours)
     best = algo.tours[best_tuple[0]]
     cities = best.cities
     cities.append(best.cities[0])
+    print "Best: ",best.get_cost()
 
     make_plot_original(lx, ly)
     save_plot('original.png')
