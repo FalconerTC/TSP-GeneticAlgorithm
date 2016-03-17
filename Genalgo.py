@@ -5,8 +5,8 @@ from random import randint
 class Genalgo(object):
 
     def __init__(self, lx, ly,
-                limit=100, size=50,
-                prob_mutation=0.2, tournament_size=5):
+                limit=100, size=25,
+                prob_mutation=0.2, tournament_size=20):
         self.lx = lx
         self.ly = ly
         self.limit = limit
@@ -26,7 +26,8 @@ class Genalgo(object):
         best = self.tours[best_tuple[0]]
         new_tours.append(best)
 
-        print iteration, best.get_cost(), best_tuple[0]
+        if iteration % 100 == 0:
+            print iteration, best.get_cost()
 
         for i in range(1, len(self.tours)):
             parent1 = self.tournament_selection()
