@@ -5,21 +5,20 @@ from random import randint
 class Genalgo(object):
 
     def __init__(self, lx, ly,
-                limit=100, size=100,
-                prob_crossover=0.9, prob_mutation=0.2, tournament_size=5):
+                limit=100, size=50,
+                prob_mutation=0.2, tournament_size=5):
         self.lx = lx
         self.ly = ly
         self.limit = limit
         self.size = size
         self.tournament_size = tournament_size
-        self.prob_crossover = prob_crossover
         self.prob_mutation = prob_mutation
         self.tours = [Tour(self.lx, self.ly) for i in range(0, size)]
 
     def initialize(self):
         t = Tour(self.lx, self.ly)
 
-    def evolve_new_pop(self):
+    def evolve_new_pop(self, iteration):
         new_tours = []
 
         # Save best tour
@@ -27,7 +26,7 @@ class Genalgo(object):
         best = self.tours[best_tuple[0]]
         new_tours.append(best)
 
-        print "Best: ", best.get_cost(), best_tuple[0]
+        print iteration, best.get_cost(), best_tuple[0]
 
         for i in range(1, len(self.tours)):
             parent1 = self.tournament_selection()

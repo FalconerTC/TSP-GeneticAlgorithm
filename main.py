@@ -6,19 +6,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from Genalgo import Genalgo
+from Tour import Tour
 
 def main():
     #make_plot_original([1,2,3,4], [1,5,9,16])
     lx, ly = parse_data('lib/xqf131.tsp')
     algo = Genalgo(lx, ly)
     algo.initialize()
-    limit = 2
+    limit = 10000
     #print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
     #algo.evolve_new_pop()
 
 
     for i in range(0,limit):
-         algo.evolve_new_pop()
+         algo.evolve_new_pop(i)
          #algo.evolve_same_pop()
          pass
 
@@ -27,9 +28,10 @@ def main():
     cities = best.cities
     cities.append(best.cities[0])
 
-    #make_plot_original(lx, ly)
-    make_plot_solved(lx, ly, cities)
+    make_plot_original(lx, ly)
     save_plot('original.png')
+    make_plot_solved(lx, ly, cities)
+    save_plot('solved.png')
 
 
 def parse_data(name):
