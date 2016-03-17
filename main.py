@@ -10,45 +10,44 @@ from Tour import Tour
 
 def main():
     #make_plot_original([1,2,3,4], [1,5,9,16])
-    lx, ly = parse_data('lib/xqf131.tsp')
+    lx, ly = parse_data('lib/pbk411.tsp')
     algo = Genalgo(lx, ly)
     algo.initialize()
-    limit = 10000
-    #print algo.crossover(algo.tours[0].cities, algo.tours[1].cities)
-    #algo.evolve_new_pop()
-
+    limit = 100000
 
     for i in range(0,limit):
-         #algo.evolve_new_pop(i)
-         algo.evolve_same_pop(i)
+         algo.evolve_new_pop(i)
+         #algo.evolve_same_pop(i)
          if i == 10:
-            _, best_tuple = algo.get_best_tours(algo.tours)
-            best = algo.tours[best_tuple[0]]
-            cities = best.cities
-            cities.append(best.cities[0])
+            cities, distance = get_best(algo)
+            cities.append(cities[0])
             make_plot_solved(lx, ly, cities)
             save_plot('solved-10.png')
+            print "10:", distance
          if i == 100:
-            _, best_tuple = algo.get_best_tours(algo.tours)
-            best = algo.tours[best_tuple[0]]
-            cities = best.cities
-            cities.append(best.cities[0])
+            cities, distance = get_best(algo)
+            cities.append(cities[0])
             make_plot_solved(lx, ly, cities)
             save_plot('solved-100.png')
+            print "100:", distance
          if i == 1000:
-            _, best_tuple = algo.get_best_tours(algo.tours)
-            best = algo.tours[best_tuple[0]]
-            cities = best.cities
-            cities.append(best.cities[0])
+            cities, distance =get_best(algo)
+            cities.append(cities[0])
             make_plot_solved(lx, ly, cities)
             save_plot('solved-1000.png')
+            print "1000:", distance
          if i == 10000:
-            _, best_tuple = algo.get_best_tours(algo.tours)
-            best = algo.tours[best_tuple[0]]
-            cities = best.cities
-            cities.append(best.cities[0])
+            cities, distance = get_best(algo)
+            cities.append(cities[0])
             make_plot_solved(lx, ly, cities)
             save_plot('solved-10000.png')
+            print "10000:", distance
+         if i == 100000:
+            cities, distance = get_best(algo)
+            cities.append(cities[0])
+            make_plot_solved(lx, ly, cities)
+            save_plot('solved-100000.png')
+            print "100000:", distance
          pass
 
     _, best_tuple = algo.get_best_tours(algo.tours)
@@ -57,12 +56,20 @@ def main():
     cities.append(best.cities[0])
     print "Best: ",best.get_cost()
 
-    print "Best: ", best.get_cost()
 
     make_plot_original(lx, ly)
     save_plot('original.png')
     make_plot_solved(lx, ly, cities)
     save_plot('solved.png')
+
+
+def get_best(algo):
+    _, best_tuple = algo.get_best_tours(algo.tours)
+    best = algo.tours[best_tuple[0]]
+    cities = []
+    for i in best.cities:
+        cities.append(i)
+    return cities, best.get_cost()
 
 
 def parse_data(name):
@@ -87,6 +94,7 @@ def make_plot_solved(lx, ly, tour):
 
 def save_plot(name):
     plt.savefig(name)
+    plt.clf()
 
 if __name__ == "__main__":
     main()

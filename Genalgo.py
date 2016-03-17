@@ -26,7 +26,7 @@ class Genalgo(object):
         best = self.tours[best_tuple[0]]
         new_tours.append(best)
 
-        if iteration % 100 == 0:
+        if iteration % 1000 == 0:
             print iteration, best.get_cost()
 
         for i in range(1, len(self.tours)):
@@ -63,7 +63,7 @@ class Genalgo(object):
 
         #print "Best: ", self.tours[bestTwo[1][0]].cities ,bestTwo[1][1]
         #print "Best: ", bestTwo[1][1]
-        
+
         #print "Cost: ", self.tours[bestTwo[1][0]].get_cost()
 
         child1 = Tour(self.lx, self.ly)
@@ -86,7 +86,7 @@ class Genalgo(object):
     def crossover(self, parent1, parent2):
         child1 = [-1 for x in range(len(parent1))]
         child2 = [-1 for x in range(len(parent2))]
-        
+
         #Used to find ones that weren't duplicates later on
         difflist = []
         difflist2 = []
