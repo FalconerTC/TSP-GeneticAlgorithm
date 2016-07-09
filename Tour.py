@@ -41,7 +41,7 @@ class Tour(object):
         """Calculate total distance of tour."""
         if self.distance == 0:
             for i in range(1, len(self.cities) + 1):
-                point1 = self.cities[i-1]
+                point1 = self.cities[i - 1]
                 point2 = self.cities[i % len(self.cities)]
                 self.distance += self.distance_to(point1, point2)
         return self.distance
@@ -50,4 +50,4 @@ class Tour(object):
         """Distance formula between two points."""
         delta_x = self.x_points[point1] - self.x_points[point2]
         delta_y = self.y_points[point1] - self.y_points[point2]
-        return math.sqrt(delta_x*delta_x + delta_y*delta_y)
+        return math.sqrt(delta_x * delta_x + delta_y * delta_y)

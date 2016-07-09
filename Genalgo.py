@@ -80,11 +80,11 @@ class Genalgo(object):
         count2 = 0
 
         if len(parent1) != len(parent2):
-                print("Trying to crossover two parents of different length")
+            print("Trying to crossover two parents of different length")
 
         # Generate random bounds
-        index1 = randint(0, len(parent1)-1)
-        index2 = randint(0, len(parent2)-1)
+        index1 = randint(0, len(parent1) - 1)
+        index2 = randint(0, len(parent2) - 1)
 
         if index2 > index1:
             for i in range(index1, index2):
@@ -151,8 +151,8 @@ class Genalgo(object):
 
     def mutate(self, tour):
         """Chance of performing slight random change to tour."""
-        index1 = randint(0, len(tour.cities)-1)
-        index2 = randint(0, len(tour.cities)-1)
+        index1 = randint(0, len(tour.cities) - 1)
+        index2 = randint(0, len(tour.cities) - 1)
         if random.random() < self.prob_mutation:
             tour.swap(index1, index2)
         return tour

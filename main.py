@@ -60,7 +60,7 @@ def parse_data(name):
 def make_plot_original(lx, ly):
     """Plot graph without traversal."""
     plt.plot(lx, ly, 'ro')
-    plt.axis([-5, max(lx)+5, -5, max(ly)+5])
+    plt.axis([-5, max(lx) + 5, -5, max(ly) + 5])
 
 
 def make_plot_solved(lx, ly, tour):
@@ -68,7 +68,7 @@ def make_plot_solved(lx, ly, tour):
     make_plot_original(lx, ly)
     for i in range(1, len(tour)):
         p2 = tour[i]
-        p1 = tour[i-1]
+        p1 = tour[i - 1]
         plt.plot([lx[p1], lx[p2]], [ly[p1], ly[p2]], 'k-')
 
 
