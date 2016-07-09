@@ -1,12 +1,17 @@
+"""Genalgo.py."""
 import random
-from Tour import Tour
 from random import randint
 
+from Tour import Tour
+
+
 class Genalgo(object):
+    """Represents a genetic algorithm that can be applied in steps to data."""
 
     def __init__(self, lx, ly,
-                limit=100, size=10,
-                prob_mutation=0.2, tournament_size=5):
+                 limit=100, size=10,
+                 prob_mutation=0.2, tournament_size=5):
+        """Initialize objects."""
         self.lx = lx
         self.ly = ly
         self.limit = limit
@@ -15,19 +20,14 @@ class Genalgo(object):
         self.prob_mutation = prob_mutation
         self.tours = [Tour(self.lx, self.ly) for i in range(0, size)]
 
-    def initialize(self):
-        t = Tour(self.lx, self.ly)
-
     def evolve_new_pop(self, iteration):
+        """Step algorithm using 'New population' method."""
         new_tours = []
 
         # Save best tour
         _, best_tuple = self.get_best_tours(self.tours)
         best = self.tours[best_tuple[0]]
         new_tours.append(best)
-
-        if iteration % 1000 == 0:
-            print iteration, best.get_cost()
 
         for i in range(1, len(self.tours)):
             parent1 = self.tournament_selection()
@@ -37,7 +37,6 @@ class Genalgo(object):
             t = Tour(self.lx, self.ly)
             t.set_tour(child1)
             new_tours.append(t)
-            #print i,parent1.get_cost(), parent2.get_cost(), t.get_cost()
 
         self.tours = new_tours
         for i in range(1, len(self.tours)):
@@ -45,34 +44,20 @@ class Genalgo(object):
 
         _, best_tuple = self.get_best_tours(self.tours)
         best = self.tours[best_tuple[0]]
-        #print "New best: ", best.get_cost(), best_tuple[0], self.tours[0].get_cost()
 
-        pass
-
-    def evolve_same_pop(self,iteration):
-
+    def evolve_same_pop(self, iteration):
+        """Step algorithm using 'Sampe population' method."""
         bestTwo = self.get_best_tours(self.tours)
         worstTwo = self.get_worst_tours(self.tours)
 
-        if iteration %1000 == 0:
-            print iteration,": ",bestTwo[1][1]
-
-
-        child1List,child2List = self.crossover(self.tours[bestTwo[0][0]].cities,
-                self.tours[bestTwo[1][0]].cities)
-
-        #print "Best: ", self.tours[bestTwo[1][0]].cities ,bestTwo[1][1]
-        #print "Best: ", bestTwo[1][1]
-
-        #print "Cost: ", self.tours[bestTwo[1][0]].get_cost()
+        children1, children2 = self.crossover(self.tours[bestTwo[0][0]].cities,
+                                              self.tours[bestTwo[1][0]].cities)
 
         child1 = Tour(self.lx, self.ly)
         child2 = Tour(self.lx, self.ly)
 
-        child1.set_tour(child1List)
-        child2.set_tour(child2List)
-
-       # print "New Children scores: ",child1.get_cost(), " and: ",child2.get_cost()
+        child1.set_tour(children1)
+        child2.set_tour(children2)
 
         if self.tours[worstTwo[0][0]].get_cost() > child1.get_cost():
             self.tours[worstTwo[0][0]] = child1
@@ -84,44 +69,44 @@ class Genalgo(object):
             self.tours[i] = self.mutate(self.tours[i])
 
     def crossover(self, parent1, parent2):
+        """Evolve to get new population."""
         child1 = [-1 for x in range(len(parent1))]
         child2 = [-1 for x in range(len(parent2))]
 
-        #Used to find ones that weren't duplicates later on
+        # Used to find ones that weren't duplicates later on
         difflist = []
         difflist2 = []
-
         count = 0
         count2 = 0
 
         if len(parent1) != len(parent2):
-                print "Trying to crossover two parents that aren't the same length"
+                print("Trying to crossover two parents of different length")
 
         # Generate random bounds
         index1 = randint(0, len(parent1)-1)
         index2 = randint(0, len(parent2)-1)
 
         if index2 > index1:
-            for i in range(index1,index2):
+            for i in range(index1, index2):
                 child1[i] = parent2[i]
                 child2[i] = parent1[i]
         elif index2 < index1:
-            for i in range(index2,index1):
+            for i in range(index2, index1):
                 child1[i] = parent2[i]
                 child2[i] = parent1[i]
         else:
             child1[index1] = parent2[index1]
             child2[index1] = parent1[index1]
 
-        # Finding all the numbers that weren't duplicates from the initial exchange
-        for i in range(0,len(parent1)):
+        # Find all the numbers that aren't duplicates from the initial exchange
+        for i in range(0, len(parent1)):
             if parent1[i] not in child1:
                 difflist.append(parent1[i])
             if parent2[i] not in child2:
                 difflist2.append(parent2[i])
 
         # Adding the non duplicates to the new child in the same order
-        for i in range(0,len(parent1)):
+        for i in range(0, len(parent1)):
             if child1[i] == -1:
                 child1[i] = difflist[count]
                 count += 1
@@ -129,11 +114,11 @@ class Genalgo(object):
                 child2[i] = difflist2[count2]
                 count2 += 1
 
-        #print index1," Through ",index2, " for the crossover"
-        return child1,child2
+        return child1, child2
 
     def get_best_tours(self, tour_list):
-        bestTwo = [(-1,10000),(-1,10000)]
+        """Determine current best tours (shortest distance)."""
+        bestTwo = [(-1, 10000), (-1, 10000)]
         for i in range(len(tour_list)):
             currentCost = tour_list[i].get_cost()
             if currentCost < bestTwo[0][1] and currentCost < bestTwo[1][1]:
@@ -144,7 +129,8 @@ class Genalgo(object):
         return bestTwo
 
     def get_worst_tours(self, tour_list):
-        worstTwo = [(-1,0),(-1,0)]
+        """Determine current worst tours (longest distance)."""
+        worstTwo = [(-1, 0), (-1, 0)]
         for i in range(len(tour_list)):
             currentCost = tour_list[i].get_cost()
             if currentCost > worstTwo[0][1] and currentCost > worstTwo[1][1]:
@@ -155,25 +141,18 @@ class Genalgo(object):
         return worstTwo
 
     def tournament_selection(self):
-        rand_vals = [randint(0, len(self.tours)-1) for x in range(self.tournament_size)]
-        rand_tours = [self.tours[x] for x in rand_vals]
+        """Select some amount of random tours and get the best from them."""
+        tour_len = len(self.tours) - 1
+        vals = [randint(0, tour_len) for x in range(self.tournament_size)]
+        rand_tours = [self.tours[x] for x in vals]
         _, best_tuple = self.get_best_tours(rand_tours)
 
-
-        #self.tours = [Tour(self.lx, self.ly) for i in range(0, size)]
         return self.tours[best_tuple[0]]
 
-    def mutate(self,tour):
+    def mutate(self, tour):
+        """Chance of performing slight random change to tour."""
         index1 = randint(0, len(tour.cities)-1)
         index2 = randint(0, len(tour.cities)-1)
-        if random.random()<self.prob_mutation:
-           # print "Mutating: ",tour.cities[index1], " ", tour.cities[index2]
-            tour.swap(index1,index2)
+        if random.random() < self.prob_mutation:
+            tour.swap(index1, index2)
         return tour
-
-    def get_fittest(self):
-        fittest = self.tours[0]
-        for i in self.tours:
-            if i.get_fitness() > fittest.get_fitness():
-                fittest = i
-        return fittest
